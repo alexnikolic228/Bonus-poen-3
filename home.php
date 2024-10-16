@@ -20,6 +20,14 @@
         exit(); //funkcija ekvivalentna exit() funkciji
     }
 
+    function update($id, $predmet, $katedra, $sala, $datum) {
+        global $conn;
+        $sql = "UPDATE prijave SET predmet = ?, katedra = ?, sala = ?, datum = ? WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssssi", $predmet, $katedra, $sala, $datum, $id); // s = string, i = integer
+        return $stmt->execute(); // Execute and return whether the update was successful
+    }
+
 
 ?>
 
@@ -146,7 +154,7 @@
                         <h3 class="modal-title text-center">Izmeni kolokvijum</h3>
                     </div>
                     <div class="modal-body">
-                        <form action="#" method="post" id="izmeniForm">
+                        <form action="updatePrijava.php" method="post" id="izmeniForm">
                             <input id="id_predmeta" type="hidden" name="id_predmeta" readonly>
                             <div class="form-group">
                                 <label>Predmet</label>
